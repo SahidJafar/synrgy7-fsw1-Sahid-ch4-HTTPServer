@@ -6,7 +6,7 @@
 const http = require('http');
 const { PORT = 8000 } = process.env; // Ambil port dari environment variable
 
-const {people, getData, getDatabyId, deleteDatabyId} = require('./people')
+const {people, getData, getDatabyId, deleteDatabyId, getDatabyUsername} = require('./people')
 
 // Request handler
 // Fungsi yang berjalan ketika ada request yang masuk.
@@ -39,6 +39,7 @@ const id = +splitedUrl
 
 if(req.url ==='/people') getData(req,res)
 else if(req.method ==='GET' && id) getDatabyId(req,res,id)
+else if(req.method ==='GET' && splitedUrl) getDatabyUsername(req,res,splitedUrl)
 else if(req.method ==='DELETE' && id) deleteDatabyId(req,res,id)
 }
 

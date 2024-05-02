@@ -66,12 +66,14 @@ const people = [
       ];
 
 // WriteFile
-const setInitialData = () =>{
-    fs.writeFile("people.txt", JSON.stringify(people), 'utf-8', (err)=>{
-        if(err) console.log('Error Saving Data!')
-        else console.log('Success Saving Data!')
-    })
-}
+// const setInitialData = () =>{
+//     fs.writeFile("people.txt", JSON.stringify(people), 'utf-8', (err)=>{
+//         if(err) console.log('Error Saving Data!')
+//         else console.log('Success Saving Data!')
+//     })
+// }
+
+
 // ReadFile
 const getData = (req, res) =>{
     fs.readFile("people.txt", 'utf-8', (err, data)=>{
@@ -101,6 +103,18 @@ const getDatabyId = (req,res,id) => {
   })
 }
 
+// Get Data by Username
+const getDatabyUsername = (req,res,username) => {
+    fs.readFile("people.txt", 'utf-8', (err, data) => {
+        if (err) {
+          console.log('Error Reading Data:', err);
+      } else {
+        const isFind = JSON.parse(data).filter((row)=> row.username.toLowerCase().includes(username.toLowerCase()))
+        res.end(JSON.stringify(isFind))
+      }
+      })
+}
+
 // Delete by Id to Object
 const deleteDatabyId = (req,res,id) => {
     fs.readFile("people.txt", 'utf-8', (err, data) => {
@@ -128,34 +142,34 @@ const deleteDatabyId = (req,res,id) => {
   }
 
 // Get Data by Name to Array
-const getDatabyName = () =>{
-  fs.readFile("people.txt", 'utf-8', (err, data)=>{
-    if (err) {
-        console.log('Error Reading Data:', err);
-    } else {
-        const parsed = JSON.parse(data);
-        console.log(parsed.map(row => row.name))
-    }
-    })
-}
+// const getDatabyName = () =>{
+//   fs.readFile("people.txt", 'utf-8', (err, data)=>{
+//     if (err) {
+//         console.log('Error Reading Data:', err);
+//     } else {
+//         const parsed = JSON.parse(data);
+//         console.log(parsed.map(row => row.name))
+//     }
+//     })
+// }
 
 // Add Data
-const addData = (payload) => {
-  fs.readFile("people.txt", 'utf-8', (err, data)=>{
-    if (err) {
-        console.log('Error Reading Data:', err);
-    } else {
-      const parsed = JSON.parse(data);
-      parsed.push(payload)
+// const addData = (payload) => {
+//   fs.readFile("people.txt", 'utf-8', (err, data)=>{
+//     if (err) {
+//         console.log('Error Reading Data:', err);
+//     } else {
+//       const parsed = JSON.parse(data);
+//       parsed.push(payload)
 
-      fs.writeFile("people.txt", JSON.stringify(parsed), 'utf-8', (err)=>{
-        if(err) console.log('Error Saving Data!')
-        else console.log(parsed)
-    })
-    }
+//       fs.writeFile("people.txt", JSON.stringify(parsed), 'utf-8', (err)=>{
+//         if(err) console.log('Error Saving Data!')
+//         else console.log(parsed)
+//     })
+//     }
 
-    })
-}
+//     })
+// }
 
-module.exports = {people, setInitialData, getData, getDatabyId, getDatabyName, addData, deleteDatabyId}
+module.exports = {people, getData, getDatabyId, deleteDatabyId, getDatabyUsername}
 
